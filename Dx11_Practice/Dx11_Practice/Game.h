@@ -14,6 +14,7 @@ public:
 private:
 	void CreateDeviceAndSwapChain();
 	void CreateRenderTargetView();
+	void SetViewPort();
 
 private:
 	HWND _hwnd = {};
@@ -29,5 +30,8 @@ private:
 	// RTV
 	ComPtr<ID3D11RenderTargetView> _renderTargetView;
 
+	// Misc
+	D3D11_VIEWPORT _viewport = { 0 };
+	float _clearColor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 };
 

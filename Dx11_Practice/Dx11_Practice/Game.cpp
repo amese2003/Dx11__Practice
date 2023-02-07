@@ -16,6 +16,7 @@ void Game::Init(HWND hwnd)
 	_height = GWinSizeY;
 
 	CreateDeviceAndSwapChain();
+	CreateRenderTargetView();
 }
 
 void Game::Update()
@@ -76,4 +77,13 @@ void Game::CreateRenderTargetView()
 
 	_device->CreateRenderTargetView(backBuffer.Get(), nullptr, _renderTargetView.GetAddressOf());
 	CHECK(hr);
+}
+
+void Game::SetViewPort()
+{
+	_viewport.TopLeftX = 0.f;
+	_viewport.TopLeftY = 0.f;
+	_viewport.Width = static_cast<float>(_width);
+	_viewport.Height = static_cast<float>(_height);
+	_deviceContext->RSSetViewports(1, &_viewport);
 }
