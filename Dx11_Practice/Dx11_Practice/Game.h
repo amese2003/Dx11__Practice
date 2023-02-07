@@ -13,6 +13,7 @@ public:
 
 private:
 	void CreateDeviceAndSwapChain();
+	void CreateRenderTargetView();
 
 private:
 	HWND _hwnd = {};
@@ -24,6 +25,9 @@ private:
 	ComPtr<ID3D11Device> _device = nullptr;
 	ComPtr<ID3D11DeviceContext> _deviceContext = nullptr;
 	ComPtr<IDXGISwapChain> _swapChain = nullptr;
+
+	// RTV
+	ComPtr<ID3D11RenderTargetView> _renderTargetView;
 
 };
 

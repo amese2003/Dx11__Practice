@@ -66,3 +66,14 @@ void Game::CreateDeviceAndSwapChain()
 
 	CHECK(hr);
 }
+
+void Game::CreateRenderTargetView()
+{
+	HRESULT hr;
+	ComPtr<ID3D11Texture2D> backBuffer = nullptr;
+	hr = _swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)backBuffer.GetAddressOf());
+	CHECK(hr);
+
+	_device->CreateRenderTargetView(backBuffer.Get(), nullptr, _renderTargetView.GetAddressOf());
+	CHECK(hr);
+}
