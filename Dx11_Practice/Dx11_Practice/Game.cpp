@@ -39,6 +39,7 @@ void Game::Render()
 
 		// IA
 		_deviceContext->IASetVertexBuffers(0, 1, _vertexBuffer.GetAddressOf(), &stride, &offset);
+		_deviceContext->IASetIndexBuffer(_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 		_deviceContext->IASetInputLayout(_inputLayout.Get());
 		_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -51,8 +52,7 @@ void Game::Render()
 		_deviceContext->PSSetShader(_pixelShader.Get(), nullptr, 0);
 
 		// OM
-
-		_deviceContext->Draw(_vertices.size(), 0);
+		_deviceContext->DrawIndexed(_indices.size(), 0, 0);
 	}
 
 	RenderEnd();
@@ -165,6 +165,25 @@ void Game::CreateGeometry()
 
 		HRESULT hr = _device->CreateBuffer(&desc, &data, _vertexBuffer.GetAddressOf());
 		CHECK(hr);
+	}
+
+	{
+		_indices = { 0, 1, 2, 2,1,3 };
+	}
+
+	// ÀÎµ¦½º ¹öÆÛ
+	{
+		D3D11_BUFFER_DESC desc;
+		ZeroMemory(&desc, sizeof(desc));
+		desc.Usage = D3D11_USAGE_IMMUTABLE;
+		desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+		desc.ByteWidth = (uint32)(sizeof(Vertex) * _indices.size());
+
+		D3D11_SUBRESOURCE_DATA data;
+		ZeroMemory(&data, sizeof(data));
+		data.pSysMem = &_indices[0];
+
+		_device->CreateBuffer(&desc, &data, _indexBuffer.GetAddressOf());
 	}
 }
 
