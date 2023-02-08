@@ -16,12 +16,20 @@ struct VS_OUTPUT
 texture2D texture0 : register(t0);
 texture2D texture1 : register(t1);
 SamplerState sampler0 : register(s0);
+SamplerState sampler1 : register(s1);
+
+// Buffer
+cbuffer TransformData : register(b0)
+{
+	float4 offset;
+}
+
 
 // IA - VS - RS - PS - OM
 VS_OUTPUT VS(VS_INPUT input)
 {
 	VS_OUTPUT output;
-	output.position = input.position;
+	output.position = input.position + offset;
 	output.uv = input.uv;
 
 	return output;
