@@ -18,6 +18,9 @@
     <Filter Include="소스 파일\Main">
       <UniqueIdentifier>{70741c3e-fd9c-4175-800d-0a85e4cdc6bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Shaders">
+      <UniqueIdentifier>{4a4dd4a5-0924-4709-9123-bc0b7155a090}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -71,5 +74,10 @@
     <Image Include="Dx11_Practice.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Default.hlsl">
+      <Filter>소스 파일\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
