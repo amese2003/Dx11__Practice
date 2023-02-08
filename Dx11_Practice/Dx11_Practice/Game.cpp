@@ -23,6 +23,9 @@ void Game::Init(HWND hwnd)
 	CreateVS();
 	CreateInputLayout();
 	CreatePS();
+
+	CreateRasterizerState();
+	CreateSRV();
 }
 
 void Game::Update()
@@ -47,9 +50,12 @@ void Game::Render()
 		_deviceContext->VSSetShader(_vertexShader.Get(), nullptr, 0);
 
 		// RS
+		_deviceContext->RSSetState(_rasterizerState.Get());
 
 		// PS
 		_deviceContext->PSSetShader(_pixelShader.Get(), nullptr, 0);
+		_deviceContext->PSSetShaderResources(0, 1, _shaderResourceView.GetAddressOf());
+		_deviceContext->PSSetSamplers(0, 1, _samplerState.GetAddressOf());
 
 		// OM
 		_deviceContext->DrawIndexed(_indices.size(), 0, 0);
@@ -136,19 +142,23 @@ void Game::CreateGeometry()
 	// VertexData
 	{
 		_vertices.clear();
-		_vertices.resize(3);
+		_vertices.resize(4);
 
 		_vertices[0].position = Vec3(-0.5f, -0.5f, 0.f);
-		//_vertices[0].uv = Vec2(0.f, 1.f);
-		_vertices[0].color = Color(1.0f, 0.0f, 0.0f, 1.f);
+		_vertices[0].uv = Vec2(0.f, 1.f);
+		//_vertices[0].color = Color(1.0f, 0.0f, 0.0f, 1.f);
 
 		_vertices[1].position = Vec3(-0.5f, 0.5f, 0.f);
-		//_vertices[1].uv = Vec2(0.f, 0.f);
-		_vertices[1].color = Color(0.0f, 1.0f, 0.0f, 1.f);
+		_vertices[1].uv = Vec2(0.f, 0.f);
+		//_vertices[1].color = Color(0.0f, 1.0f, 0.0f, 1.f);
 
 		_vertices[2].position = Vec3(0.5f, -0.5f, 0.f);
-		//_vertices[2].uv = Vec2(1.f, 1.f);
-		_vertices[2].color = Color(0.0f, 0.0f, 1.0f, 1.f);
+		_vertices[2].uv = Vec2(1.f, 1.f);
+		//_vertices[2].color = Color(0.0f, 0.0f, 1.0f, 1.f);
+
+		_vertices[3].position = Vec3(0.5f, 0.5f, 0.f);
+		_vertices[3].uv = Vec2(1.f, 0.f);
+		//_vertices[3].color = Color(1.0f, 0.0f, 0.0f, 1.f);
 	}
 
 	// VertexBuffer
@@ -167,8 +177,9 @@ void Game::CreateGeometry()
 		CHECK(hr);
 	}
 
+	// Index
 	{
-		_indices = { 0, 1, 2, 2,1,3 };
+		_indices = { 0, 1, 2, 2, 1, 3 };
 	}
 
 	// ÀÎµ¦½º ¹öÆÛ
@@ -192,7 +203,8 @@ void Game::CreateInputLayout()
 	D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		//{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
 	const int32 count = sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC);
@@ -210,6 +222,30 @@ void Game::CreatePS()
 {
 	LoadShaderFromFile(L"Default.hlsl", "PS", "ps_5_0", _psBlob);
 	HRESULT hr = _device->CreatePixelShader(_psBlob->GetBufferPointer(), _psBlob->GetBufferSize(), nullptr, _pixelShader.GetAddressOf());
+	CHECK(hr);
+}
+
+void Game::CreateRasterizerState()
+{
+	D3D11_RASTERIZER_DESC desc;
+	ZeroMemory(&desc, sizeof(D3D11_RASTERIZER_DESC));
+
+	desc.FillMode = D3D11_FILL_SOLID;
+	desc.CullMode = D3D11_CULL_BACK;
+	desc.FrontCounterClockwise = false;
+
+	HRESULT hr = _device->CreateRasterizerState(&desc, _rasterizerState.GetAddressOf());
+	CHECK(hr);
+}
+
+void Game::CreateSRV()
+{
+	DirectX::TexMetadata md;
+	DirectX::ScratchImage img;
+	HRESULT hr = ::LoadFromWICFile(L"Skeleton.png", WIC_FLAGS_NONE, &md, img);
+	CHECK(hr);
+
+	hr = ::CreateShaderResourceView(_device.Get(), img.GetImages(), img.GetImageCount(), md, _shaderResourceView.GetAddressOf());
 	CHECK(hr);
 }
 

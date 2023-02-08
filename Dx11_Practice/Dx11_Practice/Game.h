@@ -25,6 +25,9 @@ private:
 	void CreateVS();
 	void CreatePS();
 
+	void CreateRasterizerState();
+	void CreateSRV();
+
 	void LoadShaderFromFile(const wstring& path, const string& name, const string& version, ComPtr<ID3DBlob>& blob);
 
 private:
@@ -57,8 +60,15 @@ private:
 	ComPtr<ID3D11VertexShader> _vertexShader = nullptr;
 	ComPtr<ID3DBlob> _vsBlob = nullptr;
 
+	// RS
+	ComPtr<ID3D11RasterizerState> _rasterizerState = nullptr;
+
 	// PS
 	ComPtr<ID3D11PixelShader> _pixelShader = nullptr;
 	ComPtr<ID3DBlob> _psBlob = nullptr;
+
+	// SRV
+	ComPtr<ID3D11ShaderResourceView> _shaderResourceView = nullptr;
+	ComPtr<ID3D11SamplerState> _samplerState = nullptr;
 };
 
