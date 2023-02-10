@@ -84,6 +84,7 @@ void Game::RenderBegin()
 {
 	_deviceContext->OMSetRenderTargets(1, _renderTargetView.GetAddressOf(), nullptr);
 	_deviceContext->ClearRenderTargetView(_renderTargetView.Get(), _clearColor);
+	_deviceContext->RSSetViewports(1, &_viewport);
 }
 
 void Game::RenderEnd()
