@@ -21,6 +21,9 @@
     <Filter Include="소스 파일\Shaders">
       <UniqueIdentifier>{4a4dd4a5-0924-4709-9123-bc0b7155a090}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Utils">
+      <UniqueIdentifier>{67240410-3cf0-4344-b3be-29909cdf2435}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -50,6 +53,9 @@
     <ClInclude Include="Values.h">
       <Filter>소스 파일\Header</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleMath.h">
+      <Filter>소스 파일\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -60,6 +66,9 @@
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>소스 파일\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleMath.cpp">
+      <Filter>소스 파일\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,5 +88,10 @@
     <FxCompile Include="Default.hlsl">
       <Filter>소스 파일\Shaders</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SimpleMath.inl">
+      <Filter>소스 파일\Utils</Filter>
+    </None>
   </ItemGroup>
 </Project>

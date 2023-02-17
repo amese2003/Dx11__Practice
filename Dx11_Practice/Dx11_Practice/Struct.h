@@ -10,6 +10,7 @@ struct Vertex
 
 struct TransformData
 {
-	Vec3 offset;
-	float dummy;
+	Matrix matWorld;
+	Matrix matView;
+	Matrix matProjection;
 };
