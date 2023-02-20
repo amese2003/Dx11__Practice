@@ -38,3 +38,8 @@ using namespace Microsoft::WRL;
 #define CHECK(p)	assert(SUCCEEDED(p))
 
 #include "Graphics.h"
+#include "Geomatry.h"
+#include "GeomatryHelper.h"
+#include "VertexData.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
