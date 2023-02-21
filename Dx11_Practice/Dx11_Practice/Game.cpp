@@ -14,22 +14,31 @@ void Game::Init(HWND hwnd)
 	_hwnd = hwnd;
 
 	_graphics = make_shared<Graphics>(hwnd);
+	_geometry = make_shared<Geometry<VertexTextureData>>();
 	_vertexBuffer = make_shared<VertexBuffer>(_graphics->GetDevice());
 	_indexBuffer = make_shared<IndexBuffer>(_graphics->GetDevice());
-
-	_geometry = make_shared<Geometry<VertexTextureData>>();
-
 	CreateGeometry();
-	CreateVS();
+	
+	_vertexShader = make_shared<VertexShader>(_graphics->GetDevice());
+	_vertexShader->Create(L"Default.hlsl", "VS", "vs_5_0");
+	
+	_pixelShader = make_shared<PixelShader>(_graphics->GetDevice());
+	_pixelShader->Create(L"Default.hlsl", "PS", "ps_5_0");
+
+	
+
+	
+	CreateConstantBuffer();
+	
+
 	CreateInputLayout();
-	CreatePS();
 
 	CreateRasterizerState();
 	CreateSRV();
 	CreateSamplerState();
 	CreateBlendState();
 
-	CreateConstantBuffer();
+	
 }
 
 void Game::Update()
@@ -72,14 +81,14 @@ void Game::Render()
 		_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		// VS
-		_deviceContext->VSSetShader(_vertexShader.Get(), nullptr, 0);
+		_deviceContext->VSSetShader(_vertexShader->GetComPtr().Get(), nullptr, 0);
 		_deviceContext->VSSetConstantBuffers(0, 1, _constantBuffer.GetAddressOf());
 
 		// RS
 		_deviceContext->RSSetState(_rasterizerState.Get());
 
 		// PS
-		_deviceContext->PSSetShader(_pixelShader.Get(), nullptr, 0);
+		_deviceContext->PSSetShader(_pixelShader->GetComPtr().Get(), nullptr, 0);
 		_deviceContext->PSSetShaderResources(0, 1, _shaderResourceView.GetAddressOf());
 		_deviceContext->PSSetSamplers(0, 1, _samplerState.GetAddressOf());
 		
@@ -119,22 +128,9 @@ void Game::CreateInputLayout()
 	};
 
 	const int32 count = sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC);
-	_graphics->GetDevice()->CreateInputLayout(layout, count, _vsBlob->GetBufferPointer(), _vsBlob->GetBufferSize(), _inputLayout.GetAddressOf());
+	_graphics->GetDevice()->CreateInputLayout(layout, count, _vertexShader->GetBlob()->GetBufferPointer(), _vertexShader->GetBlob()->GetBufferSize(), _inputLayout.GetAddressOf());
 }
 
-void Game::CreateVS()
-{
-	LoadShaderFromFile(L"Default.hlsl", "VS", "vs_5_0", _vsBlob);
-	HRESULT hr = _graphics->GetDevice()->CreateVertexShader(_vsBlob->GetBufferPointer(), _vsBlob->GetBufferSize(), nullptr, _vertexShader.GetAddressOf());
-	CHECK(hr);
-}
-
-void Game::CreatePS()
-{
-	LoadShaderFromFile(L"Default.hlsl", "PS", "ps_5_0", _psBlob);
-	HRESULT hr = _graphics->GetDevice()->CreatePixelShader(_psBlob->GetBufferPointer(), _psBlob->GetBufferSize(), nullptr, _pixelShader.GetAddressOf());
-	CHECK(hr);
-}
 
 void Game::CreateRasterizerState()
 {
@@ -220,20 +216,4 @@ void Game::CreateConstantBuffer()
 	CHECK(hr);
 }
 
-void Game::LoadShaderFromFile(const wstring& path, const string& name, const string& version, ComPtr<ID3DBlob>& blob)
-{
-	const uint32 compileFlag = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 
-	HRESULT hr = ::D3DCompileFromFile(
-		path.c_str(),
-		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE,
-		name.c_str(),
-		version.c_str(),
-		compileFlag,
-		0,
-		blob.GetAddressOf(),
-		nullptr);
-
-	CHECK(hr);
-}

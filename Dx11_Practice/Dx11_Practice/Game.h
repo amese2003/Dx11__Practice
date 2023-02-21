@@ -44,15 +44,17 @@ private:
 	ComPtr<ID3D11InputLayout> _inputLayout = nullptr;
 
 	// VS
-	ComPtr<ID3D11VertexShader> _vertexShader = nullptr;
-	ComPtr<ID3DBlob> _vsBlob = nullptr;
+	shared_ptr<VertexShader> _vertexShader;
+	//ComPtr<ID3D11VertexShader> _vertexShader = nullptr;
+	//ComPtr<ID3DBlob> _vsBlob = nullptr;
 
 	// RS
 	ComPtr<ID3D11RasterizerState> _rasterizerState = nullptr;
 
 	// PS
-	ComPtr<ID3D11PixelShader> _pixelShader = nullptr;
-	ComPtr<ID3DBlob> _psBlob = nullptr;
+	shared_ptr<PixelShader> _pixelShader;
+	/*ComPtr<ID3D11PixelShader> _pixelShader = nullptr;
+	ComPtr<ID3DBlob> _psBlob = nullptr;*/
 
 	// SRV
 	ComPtr<ID3D11ShaderResourceView> _shaderResourceView = nullptr;
