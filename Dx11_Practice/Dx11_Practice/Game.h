@@ -17,17 +17,13 @@ public:
 private:
 	void CreateGeometry();
 	void CreateInputLayout();
-	void CreateVS();
-	void CreatePS();
 
 	void CreateRasterizerState();
 	void CreateSRV();
 	void CreateSamplerState();
 	void CreateBlendState();
 
-	void CreateConstantBuffer();
 
-	void LoadShaderFromFile(const wstring& path, const string& name, const string& version, ComPtr<ID3DBlob>& blob);
 
 private:
 	HWND _hwnd = {};
@@ -64,7 +60,7 @@ private:
 
 private:
 	TransformData _transformData;
-	ComPtr<ID3D11Buffer> _constantBuffer;
+	shared_ptr<ConstantBuffer<TransformData>> _constantBuffer;
 
 	Vec3 _localPosition = { 0.f, 0.f, 0.f };
 	Vec3 _localRotation = {0.f, 0.f, 0.f};

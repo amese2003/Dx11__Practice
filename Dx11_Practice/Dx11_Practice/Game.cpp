@@ -25,10 +25,8 @@ void Game::Init(HWND hwnd)
 	_pixelShader = make_shared<PixelShader>(_graphics->GetDevice());
 	_pixelShader->Create(L"Default.hlsl", "PS", "ps_5_0");
 
-	
-
-	
-	CreateConstantBuffer();
+	_constantBuffer = make_shared<ConstantBuffer<TransformData>>(_graphics->GetDevice(), _graphics->GetDeviceContext());
+	_constantBuffer->Create();
 	
 
 	CreateInputLayout();
@@ -55,13 +53,7 @@ void Game::Update()
 	Matrix matWorld = matScale * matRotation * matTranslation;
 	_transformData.matWorld = matWorld;
 
-
-	D3D11_MAPPED_SUBRESOURCE subRes;
-	ZeroMemory(&subRes, sizeof(D3D11_MAPPED_SUBRESOURCE));
-
-	_graphics->GetDeviceContext()->Map(_constantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &subRes);
-	memcpy(subRes.pData, &_transformData, sizeof(TransformData));
-	_graphics->GetDeviceContext()->Unmap(_constantBuffer.Get(), 0);
+	_constantBuffer->CopyData(_transformData);
 }
 
 void Game::Render()
@@ -82,7 +74,7 @@ void Game::Render()
 
 		// VS
 		_deviceContext->VSSetShader(_vertexShader->GetComPtr().Get(), nullptr, 0);
-		_deviceContext->VSSetConstantBuffers(0, 1, _constantBuffer.GetAddressOf());
+		_deviceContext->VSSetConstantBuffers(0, 1, _constantBuffer->GetComPtr().GetAddressOf());
 
 		// RS
 		_deviceContext->RSSetState(_rasterizerState.Get());
@@ -200,19 +192,6 @@ void Game::CreateBlendState()
 	desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 	HRESULT hr = _graphics->GetDevice()->CreateBlendState(&desc, _blendState.GetAddressOf());
-	CHECK(hr);
-}
-
-void Game::CreateConstantBuffer()
-{
-	D3D11_BUFFER_DESC buffer;
-	ZeroMemory(&buffer, sizeof(D3D11_BUFFER_DESC));
-	buffer.Usage = D3D11_USAGE_DYNAMIC; // CPU:Write / GPU:Read
-	buffer.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	buffer.ByteWidth = sizeof(TransformData);
-	buffer.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-	HRESULT hr = _graphics->GetDevice()->CreateBuffer(&buffer, nullptr, _constantBuffer.GetAddressOf());
 	CHECK(hr);
 }
 
