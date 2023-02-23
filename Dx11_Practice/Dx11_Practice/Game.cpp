@@ -17,7 +17,10 @@ void Game::Init(HWND hwnd)
 	_geometry = make_shared<Geometry<VertexTextureData>>();
 	_vertexBuffer = make_shared<VertexBuffer>(_graphics->GetDevice());
 	_indexBuffer = make_shared<IndexBuffer>(_graphics->GetDevice());
-	CreateGeometry();
+	
+	GeometryHelper::CreateRectangle(_geometry);
+	_vertexBuffer->Create(_geometry->GetVertices());
+	_indexBuffer->Create(_geometry->GetIndices());
 	
 	_vertexShader = make_shared<VertexShader>(_graphics->GetDevice());
 	_vertexShader->Create(L"Default.hlsl", "VS", "vs_5_0");
@@ -34,13 +37,15 @@ void Game::Init(HWND hwnd)
 	_rasterizerState = make_shared<RasterizerState>(_graphics->GetDevice());
 	_rasterizerState->Create();
 
-	CreateSRV();
+
+	_texture = make_shared<Texture>(_graphics->GetDevice());
+	_texture->Create(L"Skeleton.png");
 	
 	_samplerState = make_shared<SamplerState>(_graphics->GetDevice());
 	_samplerState->Create();
 
-
-	CreateBlendState();
+	_blendState = make_shared<BlendState>(_graphics->GetDevice());
+	_blendState->Create();
 }
 
 void Game::Update()
@@ -85,86 +90,17 @@ void Game::Render()
 
 		// PS
 		_deviceContext->PSSetShader(_pixelShader->GetComPtr().Get(), nullptr, 0);
-		_deviceContext->PSSetShaderResources(0, 1, _shaderResourceView.GetAddressOf());
+		_deviceContext->PSSetShaderResources(0, 1, _texture->GetComPtr().GetAddressOf());
 		_deviceContext->PSSetSamplers(0, 1, _samplerState->GetComPtr().GetAddressOf());
 		
 
 		// OM
-		_deviceContext->OMSetBlendState(_blendState.Get(), nullptr, 0xFFFFFFFF);
+		_deviceContext->OMSetBlendState(_blendState->GetComPtr().Get(), _blendState->GetBlendFactor(), _blendState->GetSampleMask());
 		_deviceContext->DrawIndexed(_geometry->GetIndexCount(), 0, 0);
 	}
 
 	_graphics->RenderEnd();
 }
 
-
-
-
-
-
-void Game::CreateGeometry()
-{
-	// VertexData
-	{
-		GeometryHelper::CreateRectangle(_geometry);
-	}
-
-	_vertexBuffer->Create(_geometry->GetVertices());
-	
-	_indexBuffer->Create(_geometry->GetIndices());
-}
-
-void Game::CreateInputLayout()
-{
-	D3D11_INPUT_ELEMENT_DESC layout[] =
-	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		//{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
-
-
-
-}
-
-
-
-void Game::CreateSRV()
-{
-	DirectX::TexMetadata md;
-	DirectX::ScratchImage img;
-	HRESULT hr = ::LoadFromWICFile(L"Skeleton.png", WIC_FLAGS_NONE, &md, img);
-	CHECK(hr);
-
-	hr = ::CreateShaderResourceView(_graphics->GetDevice().Get(), img.GetImages(), img.GetImageCount(), md, _shaderResourceView.GetAddressOf());
-	CHECK(hr);
-
-	hr = ::LoadFromWICFile(L"Golem.png", WIC_FLAGS_NONE, &md, img);
-	CHECK(hr);
-
-	hr = ::CreateShaderResourceView(_graphics->GetDevice().Get(), img.GetImages(), img.GetImageCount(), md, _shaderResourceView1.GetAddressOf());
-	CHECK(hr);
-}
-
-
-void Game::CreateBlendState()
-{
-	D3D11_BLEND_DESC desc;
-	ZeroMemory(&desc, sizeof(D3D11_BLEND_DESC));
-	desc.AlphaToCoverageEnable = false;
-	desc.IndependentBlendEnable = false;
-
-	desc.RenderTarget[0].BlendEnable = true;
-	desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-	desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-	desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-	desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
-	desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-	desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-
-	HRESULT hr = _graphics->GetDevice()->CreateBlendState(&desc, _blendState.GetAddressOf());
-	CHECK(hr);
-}
 
 

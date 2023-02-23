@@ -11,18 +11,6 @@ public:
 	void Render();
 
 
-
-
-
-private:
-	void CreateGeometry();
-	void CreateInputLayout();
-
-	void CreateSRV();
-	void CreateBlendState();
-
-
-
 private:
 	HWND _hwnd = {};
 	shared_ptr<Graphics> _graphics;
@@ -40,8 +28,6 @@ private:
 
 	// VS
 	shared_ptr<VertexShader> _vertexShader;
-	//ComPtr<ID3D11VertexShader> _vertexShader = nullptr;
-	//ComPtr<ID3DBlob> _vsBlob = nullptr;
 
 	// RS
 	shared_ptr<RasterizerState> _rasterizerState;
@@ -50,11 +36,10 @@ private:
 	shared_ptr<PixelShader> _pixelShader;
 
 	// SRV
-	ComPtr<ID3D11ShaderResourceView> _shaderResourceView = nullptr;
-	ComPtr<ID3D11ShaderResourceView> _shaderResourceView1 = nullptr;
+	shared_ptr<Texture> _texture;
 
 	shared_ptr<SamplerState> _samplerState;
-	ComPtr<ID3D11BlendState> _blendState = nullptr;
+	shared_ptr<BlendState> _blendState;
 
 private:
 	TransformData _transformData;

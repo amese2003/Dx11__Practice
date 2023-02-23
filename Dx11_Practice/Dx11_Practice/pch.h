@@ -48,3 +48,5 @@ using namespace Microsoft::WRL;
 #include "InputLayout.h"
 #include "RasterizerState.h"
 #include "SamplerState.h"
+#include "Texture.h"
+#include "BlendState.h"
