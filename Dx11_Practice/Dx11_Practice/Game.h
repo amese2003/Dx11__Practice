@@ -37,7 +37,8 @@ private:
 	
 	
 	shared_ptr<IndexBuffer> _indexBuffer;
-	ComPtr<ID3D11InputLayout> _inputLayout = nullptr;
+	shared_ptr<InputLayout> _inputLayout;
+	
 
 	// VS
 	shared_ptr<VertexShader> _vertexShader;
@@ -49,8 +50,6 @@ private:
 
 	// PS
 	shared_ptr<PixelShader> _pixelShader;
-	/*ComPtr<ID3D11PixelShader> _pixelShader = nullptr;
-	ComPtr<ID3DBlob> _psBlob = nullptr;*/
 
 	// SRV
 	ComPtr<ID3D11ShaderResourceView> _shaderResourceView = nullptr;

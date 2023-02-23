@@ -29,7 +29,8 @@ void Game::Init(HWND hwnd)
 	_constantBuffer->Create();
 	
 
-	CreateInputLayout();
+	_inputLayout = make_shared<InputLayout>(_graphics->GetDevice());
+	_inputLayout->Create(VertexTextureData::descs, _vertexShader->GetBlob());
 
 	CreateRasterizerState();
 	CreateSRV();
@@ -69,7 +70,7 @@ void Game::Render()
 		// IA
 		_deviceContext->IASetVertexBuffers(0, 1, _vertexBuffer->GetComPtr().GetAddressOf(), &stride, &offset);
 		_deviceContext->IASetIndexBuffer(_indexBuffer->GetComPtr().Get(), DXGI_FORMAT_R32_UINT, 0);
-		_deviceContext->IASetInputLayout(_inputLayout.Get());
+		_deviceContext->IASetInputLayout(_inputLayout->GetComPtr().Get());
 		_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		// VS
@@ -119,8 +120,8 @@ void Game::CreateInputLayout()
 		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
-	const int32 count = sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC);
-	_graphics->GetDevice()->CreateInputLayout(layout, count, _vertexShader->GetBlob()->GetBufferPointer(), _vertexShader->GetBlob()->GetBufferSize(), _inputLayout.GetAddressOf());
+
+
 }
 
 

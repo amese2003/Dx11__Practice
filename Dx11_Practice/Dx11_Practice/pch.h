@@ -45,3 +45,4 @@ using namespace Microsoft::WRL;
 #include "IndexBuffer.h"
 #include "Shader.h"
 #include "ConstantBuffer.h"
+#include "InputLayout.h"
