@@ -19,7 +19,6 @@ private:
 	void CreateInputLayout();
 
 	void CreateSRV();
-	void CreateSamplerState();
 	void CreateBlendState();
 
 
@@ -53,7 +52,8 @@ private:
 	// SRV
 	ComPtr<ID3D11ShaderResourceView> _shaderResourceView = nullptr;
 	ComPtr<ID3D11ShaderResourceView> _shaderResourceView1 = nullptr;
-	ComPtr<ID3D11SamplerState> _samplerState = nullptr;
+
+	shared_ptr<SamplerState> _samplerState;
 	ComPtr<ID3D11BlendState> _blendState = nullptr;
 
 private:

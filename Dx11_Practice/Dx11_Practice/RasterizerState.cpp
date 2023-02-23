@@ -9,7 +9,7 @@ RasterizerState::~RasterizerState()
 {
 }
 
-void RasterizerState::Create(D3D11_FILL_MODE fillMode = D3D11_FILL_SOLID, D3D11_CULL_MODE cullMode = D3D11_CULL_BACK)
+void RasterizerState::Create(D3D11_FILL_MODE fillMode, D3D11_CULL_MODE cullMode)
 {
 	D3D11_RASTERIZER_DESC desc;
 	ZeroMemory(&desc, sizeof(D3D11_RASTERIZER_DESC));

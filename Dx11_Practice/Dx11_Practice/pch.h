@@ -47,3 +47,4 @@ using namespace Microsoft::WRL;
 #include "ConstantBuffer.h"
 #include "InputLayout.h"
 #include "RasterizerState.h"
+#include "SamplerState.h"
