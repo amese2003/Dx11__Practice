@@ -18,7 +18,6 @@ private:
 	void CreateGeometry();
 	void CreateInputLayout();
 
-	void CreateRasterizerState();
 	void CreateSRV();
 	void CreateSamplerState();
 	void CreateBlendState();
@@ -46,7 +45,7 @@ private:
 	//ComPtr<ID3DBlob> _vsBlob = nullptr;
 
 	// RS
-	ComPtr<ID3D11RasterizerState> _rasterizerState = nullptr;
+	shared_ptr<RasterizerState> _rasterizerState;
 
 	// PS
 	shared_ptr<PixelShader> _pixelShader;

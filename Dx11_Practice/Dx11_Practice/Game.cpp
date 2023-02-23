@@ -28,16 +28,15 @@ void Game::Init(HWND hwnd)
 	_constantBuffer = make_shared<ConstantBuffer<TransformData>>(_graphics->GetDevice(), _graphics->GetDeviceContext());
 	_constantBuffer->Create();
 	
-
 	_inputLayout = make_shared<InputLayout>(_graphics->GetDevice());
 	_inputLayout->Create(VertexTextureData::descs, _vertexShader->GetBlob());
 
-	CreateRasterizerState();
+	_rasterizerState = make_shared<RasterizerState>(_graphics->GetDevice());
+	_rasterizerState->Create();
+
 	CreateSRV();
 	CreateSamplerState();
 	CreateBlendState();
-
-	
 }
 
 void Game::Update()
@@ -78,7 +77,7 @@ void Game::Render()
 		_deviceContext->VSSetConstantBuffers(0, 1, _constantBuffer->GetComPtr().GetAddressOf());
 
 		// RS
-		_deviceContext->RSSetState(_rasterizerState.Get());
+		_deviceContext->RSSetState(_rasterizerState->GetComPtr().Get());
 
 		// PS
 		_deviceContext->PSSetShader(_pixelShader->GetComPtr().Get(), nullptr, 0);
@@ -125,18 +124,6 @@ void Game::CreateInputLayout()
 }
 
 
-void Game::CreateRasterizerState()
-{
-	D3D11_RASTERIZER_DESC desc;
-	ZeroMemory(&desc, sizeof(D3D11_RASTERIZER_DESC));
-
-	desc.FillMode = D3D11_FILL_SOLID;
-	desc.CullMode = D3D11_CULL_BACK;
-	desc.FrontCounterClockwise = false;
-
-	HRESULT hr = _graphics->GetDevice()->CreateRasterizerState(&desc, _rasterizerState.GetAddressOf());
-	CHECK(hr);
-}
 
 void Game::CreateSRV()
 {
