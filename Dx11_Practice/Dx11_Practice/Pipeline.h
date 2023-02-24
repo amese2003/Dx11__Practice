@@ -35,7 +35,7 @@ public:
 	void SetConstantBuffer(uint32 slot, uint32 scope, shared_ptr<ConstantBuffer<Ty>> buffer)
 	{
 		if (scope == SS_VertexShader)
-			_deviceContext->IASetVertexBuffers(slot, 1, buffer->GetComPtr().GetAddressOf());
+			_deviceContext->VSSetConstantBuffers(slot, 1, buffer->GetComPtr().GetAddressOf());
 
 		if (scope == SS_PixelShader)
 			_deviceContext->PSSetConstantBuffers(slot, 1, buffer->GetComPtr().GetAddressOf());

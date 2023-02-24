@@ -14,6 +14,7 @@ void Game::Init(HWND hwnd)
 	_hwnd = hwnd;
 
 	_graphics = make_shared<Graphics>(hwnd);
+	_pipeline = make_shared<Pipeline>(_graphics->GetDeviceContext());
 	_geometry = make_shared<Geometry<VertexTextureData>>();
 	_vertexBuffer = make_shared<VertexBuffer>(_graphics->GetDevice());
 	_indexBuffer = make_shared<IndexBuffer>(_graphics->GetDevice());
@@ -70,33 +71,24 @@ void Game::Render()
 	_graphics->RenderBegin();
 
 	{
-		uint32 stride = sizeof(Vertex);
-		uint32 offset = 0;
+		PipelineInfo info;
+		info.inputLayout = _inputLayout;
+		info.vertexShader = _vertexShader;
+		info.rasterizerState = _rasterizerState;
+		info.pixelShader = _pixelShader;
+		info.blendState = _blendState;
+		_pipeline->UpdatePipeline(info); 
 
-		auto _deviceContext = _graphics->GetDeviceContext();
 
 		// IA
-		_deviceContext->IASetVertexBuffers(0, 1, _vertexBuffer->GetComPtr().GetAddressOf(), &stride, &offset);
-		_deviceContext->IASetIndexBuffer(_indexBuffer->GetComPtr().Get(), DXGI_FORMAT_R32_UINT, 0);
-		_deviceContext->IASetInputLayout(_inputLayout->GetComPtr().Get());
-		_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		_pipeline->SetVertexBuffer(_vertexBuffer);
+		_pipeline->SetIndexBuffer(_indexBuffer);
+		_pipeline->SetConstantBuffer(0, SS_VertexShader, _constantBuffer);
+		_pipeline->SetTexture(0, SS_PixelShader, _texture);
+		_pipeline->SetSamplerState(0, SS_PixelShader, _samplerState);
 
-		// VS
-		
-		_deviceContext->VSSetConstantBuffers(0, 1, _constantBuffer->GetComPtr().GetAddressOf());
+		_pipeline->DrawIndexed(_geometry->GetIndexCount(), 0, 0);
 
-		// RS
-		
-
-		// PS
-		_deviceContext->PSSetShader(_pixelShader->GetComPtr().Get(), nullptr, 0);
-		_deviceContext->PSSetShaderResources(0, 1, _texture->GetComPtr().GetAddressOf());
-		_deviceContext->PSSetSamplers(0, 1, _samplerState->GetComPtr().GetAddressOf());
-		
-
-		// OM
-		
-		_deviceContext->DrawIndexed(_geometry->GetIndexCount(), 0, 0);
 	}
 
 	_graphics->RenderEnd();
