@@ -82,11 +82,11 @@ void Game::Render()
 		_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		// VS
-		_deviceContext->VSSetShader(_vertexShader->GetComPtr().Get(), nullptr, 0);
+		
 		_deviceContext->VSSetConstantBuffers(0, 1, _constantBuffer->GetComPtr().GetAddressOf());
 
 		// RS
-		_deviceContext->RSSetState(_rasterizerState->GetComPtr().Get());
+		
 
 		// PS
 		_deviceContext->PSSetShader(_pixelShader->GetComPtr().Get(), nullptr, 0);
@@ -95,7 +95,7 @@ void Game::Render()
 		
 
 		// OM
-		_deviceContext->OMSetBlendState(_blendState->GetComPtr().Get(), _blendState->GetBlendFactor(), _blendState->GetSampleMask());
+		
 		_deviceContext->DrawIndexed(_geometry->GetIndexCount(), 0, 0);
 	}
 
