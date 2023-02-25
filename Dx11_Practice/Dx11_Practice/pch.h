@@ -41,6 +41,7 @@ using namespace Microsoft::WRL;
 #include "Geomatry.h"
 #include "GeomatryHelper.h"
 #include "VertexData.h"
+#include "Transform.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "Shader.h"
@@ -51,3 +52,5 @@ using namespace Microsoft::WRL;
 #include "Texture.h"
 #include "BlendState.h"
 #include "Pipeline.h"
+#include "GameObject.h"
+#include "Component.h"
