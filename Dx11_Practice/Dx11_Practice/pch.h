@@ -8,6 +8,7 @@
 #include <memory>
 #include <iostream>
 #include <vector>
+#include <array>
 #include <list>
 #include <map>
 using namespace std;

@@ -1,13 +1,21 @@
 #pragma once
 
+class MonoBehaviour;
+
 class GameObject
 {
 public:
 	GameObject(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext);
 	~GameObject();
 
+	void Awake();
+	void Start();
 	void Update();
+	void LateUpdate();
+	void FixedUpdate();
 	void Render(shared_ptr<Pipeline> pipeline);
+
+	void SetPosition(const Vec3& pos);
 
 
 private:
@@ -27,13 +35,17 @@ private:
 	shared_ptr<Texture> _texture;
 	shared_ptr<SamplerState> _samplerState;
 
-	TransformData _transformData;
-	shared_ptr<ConstantBuffer<TransformData>> _transformBuffer;
+
 	
 private:
+	TransformData _transformData;
+	shared_ptr<ConstantBuffer<TransformData>> _transformBuffer;
+
 	shared_ptr<Transform> _transform = make_shared<Transform>();
 
-	shared_ptr<Transform> _parent = make_shared<Transform>();
+protected:
+	array<shared_ptr<Component>, FIXED_COMPONENT_COUNT> _components;
+	vector<shared_ptr<Component>> _scripts;
 
 };
 

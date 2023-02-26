@@ -54,6 +54,36 @@
     <Filter Include="소스 파일\Engine\Component">
       <UniqueIdentifier>{ee85a77a-ce25-45b7-9b93-bff87293ddbd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Engine\Component\Animator">
+      <UniqueIdentifier>{006e5af0-286f-47b5-8f1e-a0c7efc55555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Component\Camera">
+      <UniqueIdentifier>{509cd241-3406-42bc-be48-8cfde0043142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Component\Randering">
+      <UniqueIdentifier>{c531730a-ced6-4ce9-ac16-d7ecc2f959f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Resource">
+      <UniqueIdentifier>{236450b0-6241-4b3d-8b5a-83200fc09f63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Manager">
+      <UniqueIdentifier>{5a87caa8-7463-483f-9c33-8ee82c1d75e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Manager\Input">
+      <UniqueIdentifier>{b299dac1-b4d1-49d5-8c27-4eabf9b298d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Manager\Render">
+      <UniqueIdentifier>{1a04ecea-ebe2-4ace-8736-005708bf2e4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Manager\Resource">
+      <UniqueIdentifier>{dc0fdeb8-a05f-42d2-bd59-fcd5fb4cf464}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Manager\Scene">
+      <UniqueIdentifier>{3240f71b-899c-4932-928e-01d50102a4e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Manager\Time">
+      <UniqueIdentifier>{35aa0c00-06b9-4565-88cb-d71b4f67af8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -137,6 +167,15 @@
     <ClInclude Include="Component.h">
       <Filter>소스 파일\Engine\Component</Filter>
     </ClInclude>
+    <ClInclude Include="MonoBehavior.h">
+      <Filter>소스 파일\Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>소스 파일\Engine\Manager\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>소스 파일\Engine\Manager\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -201,6 +240,15 @@
     </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>소스 파일\Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="MonoBehavior.cpp">
+      <Filter>소스 파일\Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>소스 파일\Engine\Manager\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>소스 파일\Engine\Manager\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

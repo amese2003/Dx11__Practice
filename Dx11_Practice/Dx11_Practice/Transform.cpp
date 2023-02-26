@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Transform.h"
 
-Transform::Transform()
+Transform::Transform() : Super(ComponentType::Transform)
 {
 
 }
@@ -11,7 +11,7 @@ Transform::~Transform()
 
 }
 
-void Transform::Init()
+void Transform::Awake()
 {
 }
 

@@ -39,21 +39,31 @@ GameObject::GameObject(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> 
 
 GameObject::~GameObject()
 {
+	
+}
+
+void GameObject::Awake()
+{
+	for (shared_ptr<Component>& component : _components)
+		component->Awake();
+}
+
+void GameObject::Start()
+{
 }
 
 void GameObject::Update()
 {
-	Vec3 pos = _parent->GetPosition();
-	pos.x += 0.001f;
-	_parent->SetPosition(pos);
-
-	Vec3 rot = _parent->GetRotation();
-	rot.z += 0.01f;
-	_parent->SetRotation(rot);
-
 	_transformData.matWorld = _transform->GetWorldMatrix();
-
 	_transformBuffer->CopyData(_transformData);
+}
+
+void GameObject::LateUpdate()
+{
+}
+
+void GameObject::FixedUpdate()
+{
 }
 
 void GameObject::Render(shared_ptr<Pipeline> pipeline)
@@ -78,4 +88,9 @@ void GameObject::Render(shared_ptr<Pipeline> pipeline)
 		pipeline->DrawIndexed(_geometry->GetIndexCount(), 0, 0);
 
 	}
+}
+
+void GameObject::SetPosition(const Vec3& position)
+{
+	_transform->SetPosition(position);
 }
