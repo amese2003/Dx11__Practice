@@ -62,10 +62,6 @@ void Transform::UpdateTransform()
 		Quaternion quat;
 		_matWorld.Decompose(_scale, quat, _position);
 		_rotation = ToEulerAngles(quat);
-
-		_right = Vec3::TransformNormal(Vec3::Right, _matWorld);
-		_up = Vec3::TransformNormal(Vec3::Up, _matWorld);
-		_look = Vec3::TransformNormal(Vec3::Backward, _matWorld);
 	}
 
 	// Update Children

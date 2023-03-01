@@ -54,9 +54,6 @@
     <Filter Include="소스 파일\Engine\Component">
       <UniqueIdentifier>{ee85a77a-ce25-45b7-9b93-bff87293ddbd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Engine\Component\Animator">
-      <UniqueIdentifier>{006e5af0-286f-47b5-8f1e-a0c7efc55555}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Engine\Component\Camera">
       <UniqueIdentifier>{509cd241-3406-42bc-be48-8cfde0043142}</UniqueIdentifier>
     </Filter>
@@ -83,6 +80,9 @@
     </Filter>
     <Filter Include="소스 파일\Engine\Manager\Time">
       <UniqueIdentifier>{35aa0c00-06b9-4565-88cb-d71b4f67af8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Component\Animation">
+      <UniqueIdentifier>{006e5af0-286f-47b5-8f1e-a0c7efc55555}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -176,7 +176,12 @@
     <ClInclude Include="InputManager.h">
       <Filter>소스 파일\Engine\Manager\Input</Filter>
     </ClInclude>
-    <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>소스 파일\Engine\Component\Randering</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>소스 파일\Engine\Component\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -252,7 +257,10 @@
       <Filter>소스 파일\Engine\Manager\Input</Filter>
     </ClCompile>
     <ClCompile Include="MeshRenderer.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Engine\Component\Randering</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>소스 파일\Engine\Component\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 
 class MonoBehaviour;
 
-class GameObject
+class GameObject : public enable_shared_from_this<GameObject>
 {
 public:
 	GameObject(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext);
@@ -13,10 +13,15 @@ public:
 	void Update();
 	void LateUpdate();
 	void FixedUpdate();
+
+	shared_ptr<Component> GetFixedComponent(ComponentType type);
+	shared_ptr<Transform> GetTransform();
+
+	shared_ptr<Transform> GetOrAddTransform();
+	void AddComponent(shared_ptr<Component> component);
+
+
 	void Render(shared_ptr<Pipeline> pipeline);
-
-	void SetPosition(const Vec3& pos);
-
 
 private:
 	ComPtr<ID3D11Device> _device;
@@ -39,9 +44,7 @@ private:
 	
 private:
 	TransformData _transformData;
-	shared_ptr<ConstantBuffer<TransformData>> _transformBuffer;
-
-	shared_ptr<Transform> _transform = make_shared<Transform>();
+	shared_ptr<ConstantBuffer<TransformData>> _transformBuffer; 
 
 protected:
 	array<shared_ptr<Component>, FIXED_COMPONENT_COUNT> _components;

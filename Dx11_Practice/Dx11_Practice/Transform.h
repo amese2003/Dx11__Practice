@@ -37,9 +37,6 @@ public:
 
 	Matrix GetWorldRotationMatrix();
 	Matrix GetWorldMatrix() { return _matWorld; }
-	Vec3 GetRight() { return _right; }
-	Vec3 GetUp() { return _up; }
-	Vec3 GetLook() { return _look; }
 
 	// °èÃþ °ü°è
 	bool HasParent() { return _parent != nullptr; }

@@ -19,7 +19,6 @@ void Game::Init(HWND hwnd)
 
 
 	_gameObject = make_shared<GameObject>(_graphics->GetDevice(), _graphics->GetDeviceContext());
-	_gameObject->SetPosition(Vec3(0.4, 1, 0));
 	
 }
 
