@@ -1,6 +1,8 @@
 #pragma once
 
 class SceneManager;
+class Graphics;
+class Pipeline;
 
 class Game
 {
