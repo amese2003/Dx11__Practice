@@ -38,6 +38,10 @@ using namespace Microsoft::WRL;
 
 #define CHECK(p)	assert(SUCCEEDED(p))
 
+#include "Game.h"
+#define GAME GGame
+#define SCENE GAME->GetSceneManager();
+
 #include "Graphics.h"
 #include "Geomatry.h"
 #include "GeomatryHelper.h"
