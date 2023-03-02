@@ -2,6 +2,8 @@
 #include "GameObject.h"
 #include "MonoBehavior.h"
 #include "Transform.h"
+#include "Camera.h"
+
 
 GameObject::GameObject(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext) : _device(device)
 {
@@ -19,6 +21,9 @@ GameObject::GameObject(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> 
 	
 	_pixelShader = make_shared<PixelShader>(_device);
 	_pixelShader->Create(L"Default.hlsl", "PS", "ps_5_0");
+
+	_cameraBuffer = make_shared<ConstantBuffer<CameraData>>(_device, deviceContext);
+	_cameraBuffer->Create();
 
 	_transformBuffer = make_shared<ConstantBuffer<TransformData>>(_device, deviceContext);
 	_transformBuffer->Create();
@@ -82,6 +87,13 @@ void GameObject::Update()
 	for (shared_ptr<Component>& script : _scripts)
 		script->Update();
 
+	if (GetCamera())
+		return;
+
+	_cameraData.matView = Camera::S_MatViews;
+	_cameraData.matProjection = Camera::S_MatProjection;
+	_cameraBuffer->CopyData(_cameraData);
+
 	_transformData.matWorld = GetOrAddTransform()->GetWorldMatrix();
 	_transformBuffer->CopyData(_transformData);
 }
@@ -122,6 +134,12 @@ shared_ptr<Transform> GameObject::GetTransform()
 {
 	shared_ptr<Component> component = GetFixedComponent(ComponentType::Transform);
 	return static_pointer_cast<Transform>(component);
+}
+
+shared_ptr<Camera> GameObject::GetCamera()
+{
+	shared_ptr<Component> component = GetFixedComponent(ComponentType::Camera);
+	return static_pointer_cast<Camera>(component);
 }
 
 shared_ptr<Transform> GameObject::GetOrAddTransform()
@@ -166,7 +184,8 @@ void GameObject::Render(shared_ptr<Pipeline> pipeline)
 		// IA
 		pipeline->SetVertexBuffer(_vertexBuffer);
 		pipeline->SetIndexBuffer(_indexBuffer);
-		pipeline->SetConstantBuffer(0, SS_VertexShader, _transformBuffer);
+		pipeline->SetConstantBuffer(0, SS_VertexShader, _cameraBuffer);
+		pipeline->SetConstantBuffer(1, SS_VertexShader, _transformBuffer);
 		pipeline->SetTexture(0, SS_PixelShader, _texture);
 		pipeline->SetSamplerState(0, SS_PixelShader, _samplerState);
 

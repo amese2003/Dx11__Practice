@@ -8,9 +8,13 @@ struct Vertex
 	Vec2 uv;
 };
 
+struct CameraData
+{
+	Matrix matView;
+	Matrix matProjection;
+};
+
 struct TransformData
 {
 	Matrix matWorld;
-	Matrix matView;
-	Matrix matProjection;
 };

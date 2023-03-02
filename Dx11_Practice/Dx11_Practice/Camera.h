@@ -18,7 +18,7 @@ public:
 
 	virtual void Update() override;
 
-	void SetProjectionType(ProjectionType type);
+	void SetProjectionType(ProjectionType type) { _type = type; }
 	ProjectionType GetProjectionType() { return _type; }
 
 	void UpdateMatrix();

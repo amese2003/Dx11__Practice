@@ -1,8 +1,21 @@
 #include "pch.h"
 #include "Camera.h"
 
+Matrix Camera::S_MatViews = Matrix::Identity;
+Matrix Camera::S_MatProjection = Matrix::Identity;
+
+
+Camera::Camera() : Super(ComponentType::Camera)
+{
+}
+
+Camera::~Camera()
+{
+}
+
 void Camera::Update()
 {
+	UpdateMatrix();
 }
 
 void Camera::UpdateMatrix()
@@ -18,7 +31,7 @@ void Camera::UpdateMatrix()
 	}
 	else
 	{
-		S_MatProjection = ::XMMatrixOrthographicLH(800, 600, 0.f, 1.f);
+		S_MatProjection = ::XMMatrixOrthographicLH(8, 6, 0.f, 1.f);
 	}
 
 }
