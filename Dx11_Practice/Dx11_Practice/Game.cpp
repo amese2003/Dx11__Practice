@@ -21,7 +21,7 @@ void Game::Init(HWND hwnd)
 	_graphics = make_shared<Graphics>(hwnd);
 	_pipeline = make_shared<Pipeline>(_graphics->GetDeviceContext());
 
-	_scene = make_shared<SceneManager>();
+	_scene = make_shared<SceneManager>(_graphics);
 	
 	SCENE->LoadScene(L"Test");
 
@@ -41,9 +41,7 @@ void Game::Update()
 
 void Game::Render()
 {
-
 	SCENE->Update();
-
 }
 
 

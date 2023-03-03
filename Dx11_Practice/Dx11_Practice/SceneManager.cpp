@@ -32,6 +32,12 @@ void SceneManager::Update()
 
 void SceneManager::LoadScene(wstring sceneName)
 {
+	_activeScene = LoadTestScene();
+	Init();
+}
+
+shared_ptr<Scene> SceneManager::LoadTestScene()
+{
 	shared_ptr<Scene> scene = make_shared<Scene>();
 
 	shared_ptr<GameObject> camera = make_shared<GameObject>(_graphics->GetDevice(), _graphics->GetDeviceContext());
@@ -48,11 +54,5 @@ void SceneManager::LoadScene(wstring sceneName)
 		scene->AddGameObject(monster);
 	}
 
-
-}
-
-shared_ptr<Scene> SceneManager::LoadTestScene()
-{
-	_activeScene = LoadTestScene();
-	Init();
+	return scene;
 }
