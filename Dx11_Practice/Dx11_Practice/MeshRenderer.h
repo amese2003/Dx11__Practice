@@ -14,6 +14,8 @@ public:
 	virtual ~MeshRenderer();
 
 	virtual void Update() override;
+
+private:
 	void Render(shared_ptr<Pipeline> pipeline);
 
 

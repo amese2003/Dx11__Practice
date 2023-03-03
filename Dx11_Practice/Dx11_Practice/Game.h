@@ -16,7 +16,7 @@ public:
 	void Render();
 
 	shared_ptr<SceneManager> GetSceneManager() { return _scene; }
-
+	shared_ptr<Pipeline> GetPipeline() { return _pipeline; }
 
 private:
 	HWND _hwnd = {};
