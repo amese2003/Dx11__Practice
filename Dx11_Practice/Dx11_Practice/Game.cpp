@@ -3,6 +3,10 @@
 #include "Camera.h"
 #include "MeshRenderer.h";
 #include "SceneManager.h"
+#include "InputManager.h"
+#include "TimeManager.h"
+#include "ResourceManager.h"
+#include "RenderManager.h"
 
 unique_ptr<Game> GGame = make_unique<Game>();
 
@@ -18,10 +22,22 @@ void Game::Init(HWND hwnd)
 {
 	_hwnd = hwnd;
 
-	_graphics = make_shared<Graphics>(hwnd);
-	_pipeline = make_shared<Pipeline>(_graphics->GetDeviceContext());
+	_graphics = make_shared<Graphics>(hwnd);	 
+
+	_input = make_shared<InputManager>();
+	_input->Init(hwnd);
+	
+	_time = make_shared<TimeManager>();
+	_time->Init();
 
 	_scene = make_shared<SceneManager>(_graphics);
+	_scene->Init();
+
+	_resource = make_shared<ResourceManager>(_graphics->GetDevice());
+	_resource->Init();
+
+	_render = make_shared<RenderManager>(_graphics->GetDevice(), _graphics->GetDeviceContext());
+	_render->Init();
 	
 	SCENE->LoadScene(L"Test");
 
@@ -30,16 +46,13 @@ void Game::Init(HWND hwnd)
 
 void Game::Update()
 {
-	//_transformData.offset.x += 0.0001f;
-	//_transformData.offset.y += 0.0001f
-	_graphics->RenderBegin();
+	TIME->Update();
+	INPUT->Update();
 	SCENE->Update();
-
-	_graphics->RenderEnd();
-	
 }
 
 void Game::Render()
 {
+	RENDER->Update(_graphics);
 }
 

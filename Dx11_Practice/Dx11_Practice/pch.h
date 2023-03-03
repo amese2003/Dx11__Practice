@@ -39,8 +39,12 @@ using namespace Microsoft::WRL;
 #define CHECK(p)	assert(SUCCEEDED(p))
 
 #include "Game.h"
-#define GAME	GGame
-#define SCENE	GGame->GetSceneManager()
+#define GAME		GGame
+#define INPUT		GGame->GetInputManager()
+#define TIME		GGame->GetTimeManager()
+#define SCENE		GGame->GetSceneManager()
+#define RESOURCES	GGame->GetResourceManager()
+#define RENDER		GGame->GetRenderManager()
 
 #include "Graphics.h"
 #include "Geomatry.h"
@@ -49,7 +53,7 @@ using namespace Microsoft::WRL;
 #include "Transform.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
-#include "Shader.h"
+#include "ShaderBase.h"
 #include "ConstantBuffer.h"
 #include "InputLayout.h"
 #include "RasterizerState.h"
