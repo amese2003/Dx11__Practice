@@ -5,6 +5,9 @@
 #include "Camera.h"
 #include "MeshRenderer.h"
 #include "Transform.h"
+#include "ResourceManager.h"
+#include "Game.h"
+#include "Mesh.h"
 
 SceneManager::SceneManager(shared_ptr<Graphics> graphics) : _graphics(graphics)
 {
@@ -50,9 +53,17 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 	shared_ptr<GameObject> monster = make_shared<GameObject>(_graphics->GetDevice(), _graphics->GetDeviceContext());
 	{
 		monster->GetOrAddTransform();
-		monster->AddComponent(make_shared<MeshRenderer>(_graphics->GetDevice(), _graphics->GetDeviceContext()));
-		scene->AddGameObject(monster);
+		auto meshRenderer = make_shared<MeshRenderer>(_graphics->GetDevice(), _graphics->GetDeviceContext());
+		monster->AddComponent(meshRenderer);
+
+		auto material = RESOURCES->Get<Material>(L"Default");
+		meshRenderer->SetMaterial(material);
+
+		auto mesh = RESOURCES->Get<Mesh>(L"Rectangle");
+		meshRenderer->SetMesh(mesh);
+
 	}
+	scene->AddGameObject(monster);
 
 	return scene;
 }
