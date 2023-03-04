@@ -8,6 +8,9 @@
 #include "ResourceManager.h"
 #include "Game.h"
 #include "Mesh.h"
+#include "Animation.h"
+#include "Animator.h"
+#include "CameraMove.h"
 
 SceneManager::SceneManager(shared_ptr<Graphics> graphics) : _graphics(graphics)
 {
@@ -49,6 +52,9 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		camera->AddComponent(make_shared<Camera>());
 		scene->AddGameObject(camera);
 	}
+	{
+		camera->AddComponent(make_shared<CameraMove>());
+	}
 
 	shared_ptr<GameObject> monster = make_shared<GameObject>(_graphics->GetDevice(), _graphics->GetDeviceContext());
 	{
@@ -62,6 +68,13 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		auto mesh = RESOURCES->Get<Mesh>(L"Rectangle");
 		meshRenderer->SetMesh(mesh);
 
+	}
+
+	{
+		auto animator = make_shared<Animator>();
+		monster->AddComponent(animator);
+		auto anim = RESOURCES->Get<Animation>(L"SnakeAnim");
+		animator->SetAnimation(anim);
 	}
 	scene->AddGameObject(monster);
 
