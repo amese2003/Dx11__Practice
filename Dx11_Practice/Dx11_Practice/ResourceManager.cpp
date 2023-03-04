@@ -88,4 +88,9 @@ void ResourceManager::CreateDefaultAnimation()
 	animation->AddKeyFrame(KeyFrame{ Vec2(300.0f, 0.0f), Vec2(100.f, 100.f), 0.1f });
 
 	Add(animation->GetName(), animation);
+
+	animation->Save(L"TestAnim.xml");
+
+	shared_ptr<Animation> loadtest = make_shared<Animation>();
+	loadtest->Load(L"TestAnim.xml");
 }
