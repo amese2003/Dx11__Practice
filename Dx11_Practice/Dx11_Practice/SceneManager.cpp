@@ -68,8 +68,10 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		auto mesh = RESOURCES->Get<Mesh>(L"Rectangle");
 		meshRenderer->SetMesh(mesh);
 
+		//monster->GetTransform()->SetRotation(Vec3(0, 45, 0));
+		monster->GetTransform()->SetPosition(Vec3(1.414f, 0, 1.414));
+		monster->GetTransform()->SetRotation(Vec3(0, -45, 0));
 	}
-
 	{
 		auto animator = make_shared<Animator>();
 		monster->AddComponent(animator);
@@ -77,6 +79,24 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		animator->SetAnimation(anim);
 	}
 	scene->AddGameObject(monster);
+
+	shared_ptr<GameObject> childMonster = make_shared<GameObject>(_graphics->GetDevice(), _graphics->GetDeviceContext());
+	{
+		childMonster->GetOrAddTransform();
+		auto meshRenderer = make_shared<MeshRenderer>(_graphics->GetDevice(), _graphics->GetDeviceContext());
+		childMonster->AddComponent(meshRenderer);
+
+		auto material = RESOURCES->Get<Material>(L"Default");
+		meshRenderer->SetMaterial(material);
+
+		auto mesh = RESOURCES->Get<Mesh>(L"Rectangle");
+		meshRenderer->SetMesh(mesh);
+
+		//monster->GetTransform()->SetRotation(Vec3(0, 45, 0));
+		childMonster->GetTransform()->SetPosition(Vec3(3, 0, 0));
+		childMonster->GetTransform()->SetRotation(Vec3(0, 45, 0));
+	}
+	scene->AddGameObject(childMonster);
 
 	return scene;
 }
