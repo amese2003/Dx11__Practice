@@ -21,7 +21,10 @@
     <ClCompile Include="01. TriangleDemo.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="RectangleDemo.cpp">
+    <ClCompile Include="02. RectangleDemo.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="03. ConstBufferDemo.cpp">
       <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,7 +38,10 @@
     <ClInclude Include="01. TriangleDemo.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="RectangleDemo.h">
+    <ClInclude Include="02. RectangleDemo.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="03. ConstBufferDemo.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,6 +50,9 @@
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="..\Shaders\02. Rectangle.fx">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Shaders\03. ConstBuffer.fx">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

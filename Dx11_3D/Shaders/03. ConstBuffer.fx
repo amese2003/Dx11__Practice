@@ -42,7 +42,7 @@ technique11 T0
 
     pass P1
     {
-        SetRasterizerState(FillModeWireFrame);
+        //SetRasterizerState(FillModeWireFrame);
 
         SetVertexShader(CompileShader(vs_5_0, VS()));
         SetPixelShader(CompileShader(ps_5_0, PS()));

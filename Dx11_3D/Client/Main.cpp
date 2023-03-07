@@ -2,7 +2,8 @@
 #include "Main.h"
 #include "Engine/Game.h"
 #include "01. TriangleDemo.h"
-#include "RectangleDemo.h"
+#include "02. RectangleDemo.h"
+#include "03. ConstBufferDemo.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
@@ -14,7 +15,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	desc.width = 800;
 	desc.height = 600;
 	desc.clearColor = Color(0.5f, 0.5f, 0.5f, 0.5f);
-	desc.app = make_shared<RectangleDemo>();
+	desc.app = make_shared<ConstBufferDemo>();
 
 	GAME->Run(desc);
 
